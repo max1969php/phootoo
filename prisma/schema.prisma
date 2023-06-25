@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id                         Int                         @id @default(autoincrement())
+  email                      String?                     @unique(map: "email") @db.VarChar(256)
+  password                   String                      @default("") @db.VarChar(60)
+  hashedPassword             String                      @default("") @db.VarChar(60)
+  salt                       String                      @default("") @db.VarChar(60)
+  token                      String                      @default("") @db.VarChar(6)
+  emailVerificata            Boolean                     @default(false)
+  situation                  Int                         @default(0)
+  tipoCliente                String                      @default("") @db.VarChar(50)
+  profilo_fiscale            String                      @default("no") @db.VarChar(2)
+  id_paese                   String                      @default("") @db.VarChar(2)
+  dataDiNascita              DateTime?                   @db.Date
+  nickName                   String                      @default("") @db.VarChar(20)
+  nome                       String                      @default("") @db.VarChar(60)
+  cognome                    String                      @default("") @db.VarChar(60)
+  cod_fisc                   String?                     @unique(map: "cod_fisc") @db.VarChar(16)
+  telefono                   String                      @default("") @db.VarChar(12)
+  indirizzo                  String                      @default("") @db.VarChar(60)
+  civ                        String                      @default("") @db.VarChar(8)
+  cap                        Int                         @default(0)
+  citta                      String                      @default("") @db.VarChar(60)
+  provincia                  String                      @default("") @db.VarChar(2)
+  nazione                    String                      @default("IT") @db.VarChar(2)
+  Lingua                     String                      @default("it") @db.VarChar(2)
+  DarkMode                   String                      @default("false") @db.VarChar(5)
+  created_at                 DateTime?                   @db.DateTime(0)
+  updated_at                 DateTime?                   @db.DateTime(0)
+  documents                  documents[]
+ 
+  @@unique(email, map: "Indice 1") 
+}
+
+model documents {
+  id                      Int                 @id @default(autoincrement())
+  ownerId                 Int           
+  type                    String              @db.VarChar(3)
+  thumbUrl                String              @db.VarChar(120) 
+  Url                     String              @db.VarChar(120)
+  views                   Int                 @default(0)
+  likes                   Int                 @default(0)
+  lastView                DateTime?           @default(dbgenerated("(curdate())")) @db.DateTime(0)
+  createdAt               DateTime?           @default(dbgenerated("(curdate())")) @db.DateTime(0)
+  updatedAt               DateTime?           @default(dbgenerated("(curdate())")) @db.DateTime(0)
+  owner                   user                @relation(fields: [ownerId], references: [id], onUpdate: NoAction, onDelete: NoAction, map: "FK_document_owner")
+
+  @@unique(thumbUrl, map: "Indice 1") 
+  @@unique(Url, map: "Indice 2") 
+}
