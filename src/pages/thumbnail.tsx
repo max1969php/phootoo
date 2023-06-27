@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import React from "react";
+import { Users } from './users';
 import Modal from '../components/modal'
 import VideoModal from '../components/videoModal';
 import useToggle from '../hooks/useToggle'
@@ -22,14 +22,26 @@ export function Thumbnails(){
       console.log('ciao'+element['views'])
       if(element['type']=='img'){
         toggler()
-        setImgUrl("https://massimomazzoleni.website/phootoo/photos/"+element['Url']+".JPG")
+        setImgUrl("http://127.0.0.1/photos/"+element['Url']+".JPG")
       }else{
         togglerVid()
         var vidU:any=element['Url']
         console.log(vidU)
-        seturl("https://massimomazzoleni.website/phootoo/photos/"+element['Url']+".mp4")
+        seturl("http://127.0.0.1/photos/"+element['Url']+".mp4")
       }
-      fetch("https://massimomazzoleni.website/phootoo/api/like.api.php?Url="+element['Url'])
+      fetch("http://127.0.0.1:3000/documents/"+element['id'] ,{
+        headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+        },
+        method: "PATCH",	
+      
+        // Fields that to be updated are passed
+        body: JSON.stringify({
+        email: "hello@reactcom",
+        first_name: "react"
+        })
+      })
       setViews(element['views'])
     }
 
@@ -84,7 +96,7 @@ export function Thumbnails(){
               <img
                 alt="gallery"
                 className="cursor-pointer rounded-lg py-1"
-                src={"https://massimomazzoleni.website/phootoo/thumbs/"+file['Url']+".jpg"} id={index.toString()} onClick={viewImg}/>
+                src={"http://127.0.0.1/thumbs/"+file['Url']+".jpg"} id={index.toString()} onClick={viewImg}/>
             </div>
           )
         });
@@ -92,6 +104,7 @@ export function Thumbnails(){
 
     return(
         <>  
+        <Users/>
         <div className="relative top-5 z-0  m-1 gap-2 columns-3">
             {returnImg()}
         </div>
