@@ -101,10 +101,9 @@ export function Thumbnails(){
           )
         });
       }
-
+      
     return(
         <>  
-        <Users/>
         <div className="relative top-5 z-0  m-1 gap-2 columns-3">
             {returnImg()}
         </div>

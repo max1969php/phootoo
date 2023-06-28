@@ -43,6 +43,9 @@ export default function Navbar() {
           <li>
             <a href="/users">Users</a>
           </li>
+          <li>
+          <a href="/customers">Customers</a>
+          </li>
         </ul>
       </div>
       </div>
@@ -51,6 +54,8 @@ export default function Navbar() {
             <a href="/">Home</a>
             <span>   </span>
             <a href="/users">Users</a>
+            <span>   </span>
+            <a href="/customers">Customers</a>
       </div>
     </nav>
     </header>
